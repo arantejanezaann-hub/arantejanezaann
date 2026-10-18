@@ -11,7 +11,7 @@ def home():
 def get_student():
     return jsonify({
         "student_id": "YOUR-STUDENT-ID",
-        "name": "Janeza Ann Arante",
+        "name": "Juan ",
         "program": "BSIT",
         "year": 1,
         "section": "A"
