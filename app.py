@@ -7,10 +7,10 @@ return "Welcome to my first API!"
 @app.route('/student')
 def get_student():
 return jsonify({
-"student_id": "2026-00123",
-"name": "Juan Dela Cruz",
+"student_id": "2024-200273",
+"name": "Janeza Ann Arante",
 "program": "BSIT",
-"year": 1,
+"year": 3,
 "section": "A"
 })
 @app.route('/hello')
