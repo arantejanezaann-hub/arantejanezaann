@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student API | Pink Edition</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ffe4ec, #fff0f3, #ffd6df);
+            color: #54202e;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(120deg, #c9184a, #ff4d6d);
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 5px 18px #c9184a30;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: 30px;
+            letter-spacing: 1px;
+        }
+
+        header p {
+            margin: 0;
+            color: #ffe8ee;
+            font-size: 15px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 30px auto;
+        }
+
+        .welcome {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            color: #c9184a;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #855363;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 28px;
+            margin-bottom: 25px;
+            border-radius: 18px;
+            border: 1px solid #ffc2d1;
+            box-shadow: 0 8px 25px #9d174d15;
+        }
+
+        .card h2 {
+            color: #c9184a;
+            margin-top: 0;
+            border-bottom: 2px solid #ffe0e8;
+            padding-bottom: 14px;
+        }
+
+        .icon {
+            display: inline-flex;
+            width: 42px;
+            height: 42px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: #ffe0e8;
+            margin-right: 10px;
+            font-size: 22px;
+        }
+
+        button {
+            background: linear-gradient(120deg, #e63956, #c9184a);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        button:hover {
+            background: linear-gradient(120deg, #c9184a, #a4133c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px #c9184a35;
+        }
+
+        input {
+            width: 65%;
+            max-width: 350px;
+            padding: 12px;
+            border: 1px solid #f4a6ba;
+            border-radius: 9px;
+            outline: none;
+            font-size: 14px;
+            margin-right: 6px;
+        }
+
+        input:focus {
+            border-color: #c9184a;
+            box-shadow: 0 0 0 3px #ffe0e8;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 12px;
+            background: #fff3f6;
+            border-left: 5px solid #e63956;
+            min-height: 50px;
+            overflow-wrap: anywhere;
+        }
+
+        #result p {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 7px;
+        }
+
+        #greeting {
+            margin-top: 18px;
+            padding: 15px;
+            background: #ffe0e8;
+            border-radius: 10px;
+            color: #a4133c;
+            font-size: 17px;
+            font-weight: bold;
+            overflow-wrap: anywhere;
+        }
+
+        footer {
+            text-align: center;
+            padding: 22px;
+            color: #855363;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 20px auto;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            input {
+                width: 100%;
+                max-width: none;
+                margin: 0 0 10px;
+            }
+
+            button {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🌸 Student API Interface</h1>
+        <p>A simple and interactive student information system</p>
+    </header>
+
+    <main class="container">
+
+        <section class="welcome">
+            <h2>Welcome to My Web Interface!</h2>
+            <p>
+                Explore student information and try the greeting API
+                using this pink and red themed website.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2><span class="icon">🎓</span>Student Information</h2>
+
+            <p>Click the button below to retrieve student information.</p>
+
+            <button onclick="loadStudent()">
+                Load Student Information
+            </button>
+
+            <div id="result">
+                Student information will appear here.
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><span class="icon">💌</span>Greeting API</h2>
+
+            <p>Enter your first name to receive a personalized greeting.</p>
+
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Enter your first name"
+            >
+
+            <button onclick="sayHello()">Say Hello ♥</button>
+
+            <p id="greeting">Your greeting will appear here.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Made with ♥ | Student API Web Interface</p>
+    </footer>
+
+    <script>
+        async function loadStudent() {
+            const result = document.getElementById("result");
+
+            result.textContent = "Loading student information...";
+
+            try {
+                const response = await fetch("/student");
+
+                if (!response.ok) {
+                    throw new Error("Failed to load student information");
+                }
+
+                const data = await response.json();
+
+                result.replaceChildren();
+
+                const fields = [
+                    ["Student ID", data.student_id],
+                    ["Name", data.name],
+                    ["Program", data.program],
+                    ["Year", data.year],
+                    ["Section", data.section]
+                ];
+
+                fields.forEach(function(field) {
+                    const p = document.createElement("p");
+                    const label = document.createElement("strong");
+
+                    label.textContent = field[0] + ": ";
+                    p.appendChild(label);
+                    p.appendChild(
+                        document.createTextNode(String(field[1]))
+                    );
+
+                    result.appendChild(p);
+                });
+
+            } catch (error) {
+                result.textContent = "Unable to retrieve data.";
+            }
+        }
+
+        async function sayHello() {
+            const name = document.getElementById("nameInput").value.trim();
+            const greeting = document.getElementById("greeting");
+
+            if (!name) {
+                greeting.textContent = "Please enter your first name.";
+                return;
+            }
+
+            greeting.textContent = "Preparing your greeting...";
+
+            try {
+                const response = await fetch(
+                    "/hello?name=" + encodeURIComponent(name)
+                );
+
+                if (!response.ok) {
+                    throw new Error("Greeting request failed");
+                }
+
+                const data = await response.json();
+
+                greeting.textContent = "💗 " + data.message;
+
+            } catch (error) {
+                greeting.textContent = "Unable to retrieve greeting.";
+            }
+        }
+    </script>
+
+</body>
+</html>
