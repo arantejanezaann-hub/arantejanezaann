@@ -21,7 +21,7 @@
         }
 
         header {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto 25px;
             padding: 25px 20px;
             text-align: center;
@@ -37,12 +37,12 @@
         }
 
         header p {
-            margin: 0;
+            margin: 5px 0;
             line-height: 1.6;
         }
 
         main {
-            max-width: 800px;
+            max-width: 900px;
             margin: auto;
         }
 
@@ -70,7 +70,7 @@
             color: white;
             border: none;
             padding: 12px 18px;
-            margin-top: 8px;
+            margin: 8px 5px 0 0;
             border-radius: 8px;
             cursor: pointer;
             font-size: 14px;
@@ -82,14 +82,16 @@
             background: #ad1457;
         }
 
-        input {
+        input, select {
             width: 100%;
             max-width: 350px;
             padding: 12px;
+            margin-top: 8px;
             border: 1px solid #e8a1b8;
             border-radius: 8px;
             font-size: 15px;
             outline-color: #d81b60;
+            background: white;
         }
 
         .result {
@@ -115,8 +117,46 @@
             font-weight: bold;
         }
 
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 18px;
+        }
+
+        table {
+            width: 100%;
+            min-width: 620px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #f0c1d1;
+            padding: 11px;
+            text-align: left;
+        }
+
+        th {
+            background: #c2185b;
+            color: white;
+        }
+
+        tbody tr:nth-child(even) {
+            background: #fff3f7;
+        }
+
+        tbody tr:hover {
+            background: #ffe0e9;
+        }
+
+        .student-count {
+            color: #9e1748;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
         footer {
-            max-width: 800px;
+            max-width: 900px;
             margin: 25px auto 0;
             text-align: center;
             color: #79505c;
@@ -136,7 +176,7 @@
                 padding: 19px;
             }
 
-            input {
+            input, select {
                 max-width: 100%;
             }
         }
@@ -147,31 +187,34 @@
 
     <header>
         <h1>💗 Student API Interface</h1>
-        <p>Flask API Web Application</p>
+        <p>Flask API and SQLite Database Web Application</p>
         <p>BSIT Student: Janeza Ann Arante</p>
     </header>
 
     <main>
 
-        <!-- Student Information -->
+        <!-- Existing Student Information API -->
         <section class="card">
             <h2>Student Information</h2>
             <p class="description">
-                Click the button to retrieve student information from the Flask API.
+                Click the button to retrieve student information
+                from the Flask API.
             </p>
 
             <button onclick="loadStudent()">
                 Load Student Information
             </button>
 
-            <div id="studentResult" class="result" aria-live="polite"></div>
+            <div id="studentResult" class="result"
+                 aria-live="polite"></div>
         </section>
 
-        <!-- Greeting API -->
+        <!-- Existing Greeting API -->
         <section class="card">
             <h2>Greeting API</h2>
             <p class="description">
-                Enter your first name to receive a greeting from the API.
+                Enter your first name to receive a greeting
+                from the API.
             </p>
 
             <input
@@ -185,14 +228,16 @@
 
             <button onclick="sayHello()">Say Hello</button>
 
-            <div id="greeting" class="result" aria-live="polite"></div>
+            <div id="greeting" class="result"
+                 aria-live="polite"></div>
         </section>
 
-        <!-- Custom API -->
+        <!-- Existing Custom Welcome API -->
         <section class="card">
             <h2>🌸 Custom API - BSIT Welcome</h2>
             <p class="description">
-                This additional API returns a welcome message and program information.
+                This API returns a welcome message and
+                program information.
             </p>
 
             <input
@@ -208,21 +253,82 @@
                 Get Welcome Message
             </button>
 
-            <div id="welcomeResult" class="result" aria-live="polite"></div>
+            <div id="welcomeResult" class="result"
+                 aria-live="polite"></div>
+        </section>
+
+        <!-- Activity 7: All Students from SQLite -->
+        <section class="card">
+            <h2>📚 Students from Database</h2>
+            <p class="description">
+                Retrieve all student records stored in the
+                SQLite database named students.db.
+            </p>
+
+            <button onclick="loadStudents()">
+                Load Students
+            </button>
+
+            <div id="studentList" aria-live="polite"></div>
+        </section>
+
+        <!-- Activity 7: One Student by Database ID -->
+        <section class="card">
+            <h2>🔎 Search Student by Database ID</h2>
+            <p class="description">
+                Enter the database ID of a student, such as 1 or 2.
+            </p>
+
+            <input
+                type="number"
+                id="databaseId"
+                placeholder="Enter database ID"
+                min="1"
+            >
+
+            <br>
+
+            <button onclick="loadStudentById()">
+                Search Student
+            </button>
+
+            <div id="singleStudentResult" class="result"
+                 aria-live="polite"></div>
+        </section>
+
+        <!-- Additional Task: Search by Program -->
+        <section class="card">
+            <h2>🎓 Students by Program</h2>
+            <p class="description">
+                Display students enrolled in a selected program.
+                This feature uses the additional Flask API endpoint.
+            </p>
+
+            <select id="programSelect">
+                <option value="BSIT">BSIT</option>
+                <option value="BSCS">BSCS</option>
+            </select>
+
+            <br>
+
+            <button onclick="loadStudentsByProgram()">
+                Load Students by Program
+            </button>
+
+            <div id="programResult" aria-live="polite"></div>
         </section>
 
     </main>
 
     <footer>
-        <p>Laboratory Activity 6 | Flask API and HTML Interface</p>
+        <p>Laboratory Activity 7 | SQLite Database and Flask API</p>
         <p>Created by Janeza Ann Arante 💗</p>
     </footer>
 
     <script>
-        // Load Student Information
+        // Existing Student Information API
         async function loadStudent() {
             const result = document.getElementById("studentResult");
-
             result.textContent = "Loading student information...";
 
             try {
@@ -233,7 +339,6 @@
                 }
 
                 const data = await response.json();
-
                 result.replaceChildren();
 
                 const fields = [
@@ -249,19 +354,23 @@
                     const strong = document.createElement("strong");
 
                     strong.textContent = label + ": ";
-                    p.append(strong, document.createTextNode(String(value)));
+                    p.append(
+                        strong,
+                        document.createTextNode(String(value))
+                    );
 
                     result.appendChild(p);
                 });
             } catch (error) {
                 result.textContent =
-                    "Unable to retrieve student information. Please try again.";
+                    "Unable to retrieve student information.";
             }
         }
 
-        // Greeting API
+        // Existing Greeting API
         async function sayHello() {
-            const name = document.getElementById("nameInput").value.trim();
+            const name = document.getElementById("nameInput")
+                .value.trim();
             const greeting = document.getElementById("greeting");
 
             if (!name) {
@@ -284,13 +393,14 @@
                 greeting.textContent = "💗 " + data.message;
             } catch (error) {
                 greeting.textContent =
-                    "Unable to retrieve greeting. Please try again.";
+                    "Unable to retrieve greeting.";
             }
         }
 
-        // Custom Welcome API
+        // Existing Custom Welcome API
         async function loadWelcome() {
-            const name = document.getElementById("welcomeName").value.trim();
+            const name = document.getElementById("welcomeName")
+                .value.trim();
             const result = document.getElementById("welcomeResult");
 
             if (!name) {
@@ -310,7 +420,6 @@
                 }
 
                 const data = await response.json();
-
                 result.replaceChildren();
 
                 const message = document.createElement("p");
@@ -325,7 +434,228 @@
                 result.append(message, program, college);
             } catch (error) {
                 result.textContent =
-                    "Unable to retrieve welcome message. Please try again.";
+                    "Unable to retrieve welcome message.";
+            }
+        }
+
+        // Activity 7: Load All Students from SQLite
+        async function loadStudents() {
+            const container = document.getElementById("studentList");
+
+            container.textContent = "Loading student records...";
+
+            try {
+                const response = await fetch("/students");
+
+                if (!response.ok) {
+                    throw new Error("Unable to load students");
+                }
+
+                const students = await response.json();
+                container.replaceChildren();
+
+                if (students.length === 0) {
+                    container.textContent = "No student records found.";
+                    return;
+                }
+
+                const count = document.createElement("p");
+                count.className = "student-count";
+                count.textContent =
+                    "Total student records: " + students.length;
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "table-container";
+
+                const table = document.createElement("table");
+                const thead = document.createElement("thead");
+                const headerRow = document.createElement("tr");
+
+                [
+                    "Database ID",
+                    "Student ID",
+                    "Name",
+                    "Program",
+                    "Year",
+                    "Section"
+                ].forEach(label => {
+                    const th = document.createElement("th");
+                    th.textContent = label;
+                    headerRow.appendChild(th);
+                });
+
+                thead.appendChild(headerRow);
+
+                const tbody = document.createElement("tbody");
+
+                students.forEach(student => {
+                    const row = document.createElement("tr");
+
+                    [
+                        student.id,
+                        student.student_id,
+                        student.name,
+                        student.program,
+                        student.year,
+                        student.section
+                    ].forEach(value => {
+                        const td = document.createElement("td");
+                        td.textContent = String(value);
+                        row.appendChild(td);
+                    });
+
+                    tbody.appendChild(row);
+                });
+
+                table.append(thead, tbody);
+                wrapper.appendChild(table);
+                container.append(count, wrapper);
+            } catch (error) {
+                container.textContent =
+                    "Unable to retrieve database records. " +
+                    "Check that Flask and students.db are working.";
+            }
+        }
+
+        // Activity 7: Get One Student by Database ID
+        async function loadStudentById() {
+            const id = document.getElementById("databaseId")
+                .value.trim();
+            const result =
+                document.getElementById("singleStudentResult");
+
+            if (!id || !Number.isInteger(Number(id)) || Number(id) < 1) {
+                result.textContent = "Please enter a valid database ID.";
+                return;
+            }
+
+            result.textContent = "Searching for student...";
+
+            try {
+                const response = await fetch(
+                    "/students/" + encodeURIComponent(id)
+                );
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(
+                        data.error || "Student not found"
+                    );
+                }
+
+                result.replaceChildren();
+
+                [
+                    ["Database ID", data.id],
+                    ["Student ID", data.student_id],
+                    ["Name", data.name],
+                    ["Program", data.program],
+                    ["Year", data.year],
+                    ["Section", data.section]
+                ].forEach(([label, value]) => {
+                    const p = document.createElement("p");
+                    const strong = document.createElement("strong");
+
+                    strong.textContent = label + ": ";
+                    p.append(
+                        strong,
+                        document.createTextNode(String(value))
+                    );
+
+                    result.appendChild(p);
+                });
+            } catch (error) {
+                result.textContent = error.message;
+            }
+        }
+
+        // Additional Task: Load Students by Program
+        async function loadStudentsByProgram() {
+            const program =
+                document.getElementById("programSelect").value;
+            const container =
+                document.getElementById("programResult");
+
+            container.textContent = "Loading " + program + " students...";
+
+            try {
+                const response = await fetch(
+                    "/students/program/" + encodeURIComponent(program)
+                );
+
+                if (!response.ok) {
+                    throw new Error("Unable to load students by program");
+                }
+
+                const students = await response.json();
+                container.replaceChildren();
+
+                const message = document.createElement("p");
+                message.className = "student-count";
+                message.textContent =
+                    "Program: " + program +
+                    " | Records found: " + students.length;
+
+                container.appendChild(message);
+
+                if (students.length === 0) {
+                    const empty = document.createElement("p");
+                    empty.textContent =
+                        "No students found for this program.";
+                    container.appendChild(empty);
+                    return;
+                }
+
+                const wrapper = document.createElement("div");
+                wrapper.className = "table-container";
+
+                const table = document.createElement("table");
+                const thead = document.createElement("thead");
+                const headerRow = document.createElement("tr");
+
+                [
+                    "Database ID",
+                    "Student ID",
+                    "Name",
+                    "Program",
+                    "Year",
+                    "Section"
+                ].forEach(label => {
+                    const th = document.createElement("th");
+                    th.textContent = label;
+                    headerRow.appendChild(th);
+                });
+
+                thead.appendChild(headerRow);
+
+                const tbody = document.createElement("tbody");
+
+                students.forEach(student => {
+                    const row = document.createElement("tr");
+
+                    [
+                        student.id,
+                        student.student_id,
+                        student.name,
+                        student.program,
+                        student.year,
+                        student.section
+                    ].forEach(value => {
+                        const td = document.createElement("td");
+                        td.textContent = String(value);
+                        row.appendChild(td);
+                    });
+
+                    tbody.appendChild(row);
+                });
+
+                table.append(thead, tbody);
+                wrapper.appendChild(table);
+                container.appendChild(wrapper);
+            } catch (error) {
+                container.textContent =
+                    "Unable to retrieve students by program. " +
+                    "Check the additional API endpoint in app.py.";
             }
         }
     </script>
