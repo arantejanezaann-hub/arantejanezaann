@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student API | Pink Edition</title>
+    <title>Janeza | Student API Interface</title>
 
     <style>
         * {
@@ -14,171 +14,129 @@
 
         body {
             margin: 0;
+            padding: 30px 16px;
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #ffe4ec, #fff0f3, #ffd6df);
-            color: #54202e;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #fff0f5, #ffe0e6);
+            color: #4a1725;
         }
 
         header {
-            background: linear-gradient(120deg, #c9184a, #ff4d6d);
-            color: white;
-            padding: 35px 20px;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            padding: 25px 20px;
             text-align: center;
-            box-shadow: 0 5px 18px #c9184a30;
+            background: linear-gradient(135deg, #c2185b, #ef5350);
+            color: white;
+            border-radius: 18px;
+            box-shadow: 0 5px 15px #d81b6040;
         }
 
         header h1 {
             margin: 0 0 10px;
-            font-size: 30px;
-            letter-spacing: 1px;
+            font-size: 28px;
         }
 
         header p {
             margin: 0;
-            color: #ffe8ee;
-            font-size: 15px;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 850px;
-            margin: 30px auto;
-        }
-
-        .welcome {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .welcome h2 {
-            color: #c9184a;
-            margin-bottom: 8px;
-        }
-
-        .welcome p {
-            color: #855363;
             line-height: 1.6;
         }
 
+        main {
+            max-width: 800px;
+            margin: auto;
+        }
+
         .card {
-            background: #ffffff;
-            padding: 28px;
-            margin-bottom: 25px;
-            border-radius: 18px;
-            border: 1px solid #ffc2d1;
-            box-shadow: 0 8px 25px #9d174d15;
+            background: white;
+            padding: 25px;
+            margin-bottom: 22px;
+            border-radius: 16px;
+            border-top: 5px solid #e91e63;
+            box-shadow: 0 5px 18px #9e1b4b18;
         }
 
-        .card h2 {
-            color: #c9184a;
+        h2 {
             margin-top: 0;
-            border-bottom: 2px solid #ffe0e8;
-            padding-bottom: 14px;
+            color: #c2185b;
         }
 
-        .icon {
-            display: inline-flex;
-            width: 42px;
-            height: 42px;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            background: #ffe0e8;
-            margin-right: 10px;
-            font-size: 22px;
+        .description {
+            color: #79505c;
+            line-height: 1.6;
         }
 
         button {
-            background: linear-gradient(120deg, #e63956, #c9184a);
+            background: #d81b60;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 9px;
+            padding: 12px 18px;
+            margin-top: 8px;
+            border-radius: 8px;
+            cursor: pointer;
             font-size: 14px;
             font-weight: bold;
-            cursor: pointer;
-            transition: 0.25s;
+            transition: background 0.2s;
         }
 
         button:hover {
-            background: linear-gradient(120deg, #c9184a, #a4133c);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 12px #c9184a35;
+            background: #ad1457;
         }
 
         input {
-            width: 65%;
+            width: 100%;
             max-width: 350px;
             padding: 12px;
-            border: 1px solid #f4a6ba;
-            border-radius: 9px;
-            outline: none;
-            font-size: 14px;
-            margin-right: 6px;
+            border: 1px solid #e8a1b8;
+            border-radius: 8px;
+            font-size: 15px;
+            outline-color: #d81b60;
         }
 
-        input:focus {
-            border-color: #c9184a;
-            box-shadow: 0 0 0 3px #ffe0e8;
-        }
-
-        #result {
-            margin-top: 20px;
-            padding: 18px;
-            border-radius: 12px;
-            background: #fff3f6;
-            border-left: 5px solid #e63956;
-            min-height: 50px;
-            overflow-wrap: anywhere;
-        }
-
-        #result p {
-            padding: 10px;
-            margin: 5px 0;
-            background: white;
-            border-radius: 7px;
-        }
-
-        #greeting {
+        .result {
             margin-top: 18px;
-            padding: 15px;
-            background: #ffe0e8;
-            border-radius: 10px;
-            color: #a4133c;
-            font-size: 17px;
-            font-weight: bold;
+            padding: 16px;
+            background: #fff3f7;
+            border-left: 4px solid #e91e63;
+            border-radius: 8px;
+            line-height: 1.8;
             overflow-wrap: anywhere;
+        }
+
+        .result:empty {
+            display: none;
+        }
+
+        .result p {
+            margin: 5px 0;
+        }
+
+        .status {
+            color: #9e1748;
+            font-weight: bold;
         }
 
         footer {
+            max-width: 800px;
+            margin: 25px auto 0;
             text-align: center;
-            padding: 22px;
-            color: #855363;
+            color: #79505c;
             font-size: 13px;
         }
 
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 24px;
+        @media (max-width: 500px) {
+            body {
+                padding: 18px 12px;
             }
 
-            .container {
-                width: 92%;
-                margin: 20px auto;
+            header h1 {
+                font-size: 23px;
             }
 
             .card {
-                padding: 20px;
+                padding: 19px;
             }
 
             input {
-                width: 100%;
-                max-width: none;
-                margin: 0 0 10px;
-            }
-
-            button {
                 max-width: 100%;
             }
         }
@@ -188,59 +146,82 @@
 <body>
 
     <header>
-        <h1>🌸 Student API Interface</h1>
-        <p>A simple and interactive student information system</p>
+        <h1>💗 Student API Interface</h1>
+        <p>Flask API Web Application</p>
+        <p>BSIT Student: Janeza Ann Arante</p>
     </header>
 
-    <main class="container">
+    <main>
 
-        <section class="welcome">
-            <h2>Welcome to My Web Interface!</h2>
-            <p>
-                Explore student information and try the greeting API
-                using this pink and red themed website.
-            </p>
-        </section>
-
+        <!-- Student Information -->
         <section class="card">
-            <h2><span class="icon">🎓</span>Student Information</h2>
-
-            <p>Click the button below to retrieve student information.</p>
+            <h2>Student Information</h2>
+            <p class="description">
+                Click the button to retrieve student information from the Flask API.
+            </p>
 
             <button onclick="loadStudent()">
                 Load Student Information
             </button>
 
-            <div id="result">
-                Student information will appear here.
-            </div>
+            <div id="studentResult" class="result" aria-live="polite"></div>
         </section>
 
+        <!-- Greeting API -->
         <section class="card">
-            <h2><span class="icon">💌</span>Greeting API</h2>
-
-            <p>Enter your first name to receive a personalized greeting.</p>
+            <h2>Greeting API</h2>
+            <p class="description">
+                Enter your first name to receive a greeting from the API.
+            </p>
 
             <input
                 type="text"
                 id="nameInput"
                 placeholder="Enter your first name"
+                maxlength="100"
             >
 
-            <button onclick="sayHello()">Say Hello ♥</button>
+            <br>
 
-            <p id="greeting">Your greeting will appear here.</p>
+            <button onclick="sayHello()">Say Hello</button>
+
+            <div id="greeting" class="result" aria-live="polite"></div>
+        </section>
+
+        <!-- Custom API -->
+        <section class="card">
+            <h2>🌸 Custom API - BSIT Welcome</h2>
+            <p class="description">
+                This additional API returns a welcome message and program information.
+            </p>
+
+            <input
+                type="text"
+                id="welcomeName"
+                placeholder="Enter your name"
+                maxlength="100"
+            >
+
+            <br>
+
+            <button onclick="loadWelcome()">
+                Get Welcome Message
+            </button>
+
+            <div id="welcomeResult" class="result" aria-live="polite"></div>
         </section>
 
     </main>
 
     <footer>
-        <p>Made with ♥ | Student API Web Interface</p>
+        <p>Laboratory Activity 6 | Flask API and HTML Interface</p>
+        <p>Created by Janeza Ann Arante 💗</p>
     </footer>
 
     <script>
+        // Load Student Information
         async function loadStudent() {
-            const result = document.getElementById("result");
+            const result = document.getElementById("studentResult");
 
             result.textContent = "Loading student information...";
 
@@ -248,7 +229,7 @@
                 const response = await fetch("/student");
 
                 if (!response.ok) {
-                    throw new Error("Failed to load student information");
+                    throw new Error("Student request failed");
                 }
 
                 const data = await response.json();
@@ -263,24 +244,22 @@
                     ["Section", data.section]
                 ];
 
-                fields.forEach(function(field) {
+                fields.forEach(([label, value]) => {
                     const p = document.createElement("p");
-                    const label = document.createElement("strong");
+                    const strong = document.createElement("strong");
 
-                    label.textContent = field[0] + ": ";
-                    p.appendChild(label);
-                    p.appendChild(
-                        document.createTextNode(String(field[1]))
-                    );
+                    strong.textContent = label + ": ";
+                    p.append(strong, document.createTextNode(String(value)));
 
                     result.appendChild(p);
                 });
-
             } catch (error) {
-                result.textContent = "Unable to retrieve data.";
+                result.textContent =
+                    "Unable to retrieve student information. Please try again.";
             }
         }
 
+        // Greeting API
         async function sayHello() {
             const name = document.getElementById("nameInput").value.trim();
             const greeting = document.getElementById("greeting");
@@ -290,7 +269,7 @@
                 return;
             }
 
-            greeting.textContent = "Preparing your greeting...";
+            greeting.textContent = "Loading greeting...";
 
             try {
                 const response = await fetch(
@@ -302,11 +281,51 @@
                 }
 
                 const data = await response.json();
-
                 greeting.textContent = "💗 " + data.message;
-
             } catch (error) {
-                greeting.textContent = "Unable to retrieve greeting.";
+                greeting.textContent =
+                    "Unable to retrieve greeting. Please try again.";
+            }
+        }
+
+        // Custom Welcome API
+        async function loadWelcome() {
+            const name = document.getElementById("welcomeName").value.trim();
+            const result = document.getElementById("welcomeResult");
+
+            if (!name) {
+                result.textContent = "Please enter your name.";
+                return;
+            }
+
+            result.textContent = "Loading welcome message...";
+
+            try {
+                const response = await fetch(
+                    "/welcome?name=" + encodeURIComponent(name)
+                );
+
+                if (!response.ok) {
+                    throw new Error("Welcome request failed");
+                }
+
+                const data = await response.json();
+
+                result.replaceChildren();
+
+                const message = document.createElement("p");
+                message.textContent = "💗 " + data.message;
+
+                const program = document.createElement("p");
+                program.textContent = "Program: " + data.program;
+
+                const college = document.createElement("p");
+                college.textContent = "College: " + data.college;
+
+                result.append(message, program, college);
+            } catch (error) {
+                result.textContent =
+                    "Unable to retrieve welcome message. Please try again.";
             }
         }
     </script>
