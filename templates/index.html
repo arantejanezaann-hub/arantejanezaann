@@ -662,3 +662,65 @@
 
 </body>
 </html>
+
+<!-- LAB 8: CRUD STUDENT FORM -->
+<section class="card">
+    <h2>💗 Manage My Student Records</h2>
+    <p class="description">
+        Add, edit, search, view, and delete records in your own SQLite database.
+    </p>
+
+    <form id="crudForm">
+        <input type="hidden" id="crudId">
+
+        <input id="crudStudentId" placeholder="Student ID" required>
+        <input id="crudName" placeholder="Full Name" required>
+        <input id="crudProgram" placeholder="Program (BSIT)" required>
+        <input id="crudYear" type="number" min="1" placeholder="Year" required>
+        <input id="crudSection" placeholder="Section" required>
+
+        <br>
+        <button type="submit" id="crudSaveButton">Add Student</button>
+        <button type="button" onclick="resetCrudForm()">Clear Form</button>
+    </form>
+
+    <div id="crudMessage" class="result" aria-live="polite"></div>
+</section>
+
+<!-- LAB 8: MY RECORDS -->
+<section class="card">
+    <h2>📚 My Records</h2>
+    <p class="description">
+        These records come from your own database and can be edited or deleted.
+    </p>
+
+    <input id="crudSearch" placeholder="Search your records...">
+
+    <div id="crudRecords" class="table-container"></div>
+    <div id="crudDetails" class="result"></div>
+</section>
+
+<!-- LAB 8: CLASSMATE RECORDS -->
+<section class="card">
+    <h2>🤝 Classmate's Records</h2>
+    <p class="description">
+        Read-only records retrieved from your classmate's deployed Flask API.
+        You cannot edit or delete your classmate's records here.
+    </p>
+
+    <input
+        type="url"
+        id="classmateApiUrl"
+        placeholder="https://your-classmate.onrender.com/api/students"
+    >
+
+    <br>
+    <button type="button" onclick="loadClassmateRecords()">
+        Load Classmate's Records
+    </button>
+
+    <div id="classmateMessage" class="result" aria-live="polite"></div>
+    <div id="classmateRecords" class="table-container"></div>
+    <div id="classmateDetails" class="result"></div>
+</section>
+
