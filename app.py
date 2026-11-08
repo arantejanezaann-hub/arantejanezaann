@@ -1,4 +1,5 @@
 
+
 import sqlite3
 from flask import Flask, jsonify, request, render_template
 
@@ -34,10 +35,7 @@ def get_student():
 @app.route("/hello")
 def say_hello():
     name = request.args.get("name", "Student")
-
-    return jsonify({
-        "message": f"Hello, {name}!"
-    })
+    return jsonify({"message": f"Hello, {name}!"})
 
 
 # Custom Welcome API
@@ -52,53 +50,184 @@ def welcome():
     })
 
 
-# API: Get All Students from SQLite Database
+# READ: Get All Students
 @app.route("/students")
 def get_students():
     conn = get_db_connection()
-
     students = conn.execute(
         "SELECT * FROM students"
     ).fetchall()
-
     conn.close()
 
     return jsonify([dict(student) for student in students])
 
 
-# API: Get One Student by Database ID
+# READ: Get One Student by Database ID
 @app.route("/students/<int:id>")
 def get_student_by_id(id):
     conn = get_db_connection()
 
     student = conn.execute(
-        "SELECT * FROM students WHERE id = ?",
-        (id,)
+        "SELECT * FROM students WHERE id = ?", (id,)
     ).fetchone()
 
     conn.close()
 
     if student is None:
-        return jsonify({
-            "error": "Student not found"
-        }), 404
+        return jsonify({"error": "Student not found"}), 404
 
     return jsonify(dict(student))
 
 
-# Additional Task: Get Students by Program
+# READ: Get Students by Program
 @app.route("/students/program/<program>")
 def get_students_by_program(program):
     conn = get_db_connection()
 
     students = conn.execute(
-        "SELECT * FROM students WHERE program = ?",
+        "SELECT * FROM students WHERE UPPER(program) = ?",
         (program.upper(),)
     ).fetchall()
 
     conn.close()
 
     return jsonify([dict(student) for student in students])
+
+
+# STEP 2: CREATE - Add Student
+@app.route("/api/students", methods=["POST"])
+def add_student():
+    data = request.get_json(silent=True)
+
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    required = ["student_id", "name", "program", "year", "section"]
+
+    if any(data.get(field) in (None, "") for field in required):
+        return jsonify({"error": "Please complete all fields"}), 400
+
+    try:
+        conn = get_db_connection()
+
+        cursor = conn.execute(
+            """INSERT INTO students
+            (student_id, name, program, year, section)
+            VALUES (?, ?, ?, ?, ?)""",
+            (
+                data["student_id"],
+                data["name"],
+                data["program"],
+                int(data["year"]),
+                data["section"]
+            )
+        )
+
+        conn.commit()
+        new_id = cursor.lastrowid
+        conn.close()
+
+        return jsonify({
+            "message": "Student added successfully!",
+            "id": new_id
+        }), 201
+
+    except (ValueError, sqlite3.Error) as e:
+        return jsonify({"error": str(e)}), 400
+
+
+# STEP 3: READ - Get One Student through CRUD API
+@app.route("/api/students/<int:id>", methods=["GET"])
+def api_get_student(id):
+    conn = get_db_connection()
+
+    student = conn.execute(
+        "SELECT * FROM students WHERE id = ?", (id,)
+    ).fetchone()
+
+    conn.close()
+
+    if student is None:
+        return jsonify({"error": "Student not found"}), 404
+
+    return jsonify(dict(student))
+
+
+# READ: Get All Students for Classmate's API
+@app.route("/api/students", methods=["GET"])
+def api_students():
+    conn = get_db_connection()
+
+    rows = conn.execute(
+        "SELECT * FROM students"
+    ).fetchall()
+
+    conn.close()
+
+    return jsonify([dict(row) for row in rows])
+
+
+# STEP 3: UPDATE - Edit Student
+@app.route("/api/students/<int:id>", methods=["PUT"])
+def update_student(id):
+    data = request.get_json(silent=True)
+
+    if not data:
+        return jsonify({"error": "Invalid JSON data"}), 400
+
+    required = ["student_id", "name", "program", "year", "section"]
+
+    if any(data.get(field) in (None, "") for field in required):
+        return jsonify({"error": "Please complete all fields"}), 400
+
+    try:
+        conn = get_db_connection()
+
+        cursor = conn.execute(
+            """UPDATE students
+            SET student_id=?, name=?, program=?,
+            year=?, section=?
+            WHERE id=?""",
+            (
+                data["student_id"],
+                data["name"],
+                data["program"],
+                int(data["year"]),
+                data["section"],
+                id
+            )
+        )
+
+        conn.commit()
+        updated = cursor.rowcount
+        conn.close()
+
+        if updated == 0:
+            return jsonify({"error": "Student not found"}), 404
+
+        return jsonify({"message": "Student updated successfully!"})
+
+    except (ValueError, sqlite3.Error) as e:
+        return jsonify({"error": str(e)}), 400
+
+
+# STEP 3: DELETE - Remove Student
+@app.route("/api/students/<int:id>", methods=["DELETE"])
+def delete_student(id):
+    conn = get_db_connection()
+
+    cursor = conn.execute(
+        "DELETE FROM students WHERE id = ?", (id,)
+    )
+
+    conn.commit()
+    deleted = cursor.rowcount
+    conn.close()
+
+    if deleted == 0:
+        return jsonify({"error": "Student not found"}), 404
+
+    return jsonify({"message": "Student deleted successfully!"})
 
 
 if __name__ == "__main__":
