@@ -243,6 +243,36 @@ def delete_student(id):
 
     return jsonify({"message": "Student deleted successfully!"})
 
+# RETRIEVE CLASSMATE'S RECORDS THROUGH YOUR FLASK SERVER
+@app.route("/api/classmate-students")
+def get_classmate_students():
+
+    classmate_api = "https://agagdangerich-1.onrender.com/api/students"
+
+    try:
+        response = requests.get(classmate_api, timeout=30)
+        response.raise_for_status()
+
+        students = response.json()
+
+        if not isinstance(students, list):
+            return jsonify({
+                "error": "Classmate API did not return a list of students"
+            }), 502
+
+        return jsonify(students)
+
+    except requests.RequestException as e:
+        return jsonify({
+            "error": "Unable to connect to classmate API",
+            "details": str(e)
+        }), 502
+
+    except ValueError:
+        return jsonify({
+            "error": "Classmate API returned invalid JSON"
+        }), 502
+
 
 if __name__ == "__main__":
     app.run(debug=True)
