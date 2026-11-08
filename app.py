@@ -6,10 +6,24 @@ from flask import Flask, jsonify, request, render_template
 app = Flask(__name__)
 
 
-# SQLite Database Connection
 def get_db_connection():
     conn = sqlite3.connect("students.db")
     conn.row_factory = sqlite3.Row
+
+    # Automatically create students table if it does not exist
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS students (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            student_id TEXT NOT NULL,
+            name TEXT NOT NULL,
+            program TEXT NOT NULL,
+            year INTEGER NOT NULL,
+            section TEXT NOT NULL
+        )
+    """)
+
+    conn.commit()
+
     return conn
 
 
